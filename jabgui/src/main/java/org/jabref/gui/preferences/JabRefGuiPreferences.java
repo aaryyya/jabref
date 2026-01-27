@@ -285,8 +285,7 @@ public class JabRefGuiPreferences extends JabRefCliPreferences implements GuiPre
                         "</font>__NEWLINE__");
         // endregion
 
-        // region NameDisplayPreferences
-//
+
 
         // By default disable "Fit table horizontally on the screen"
         defaults.put(AUTO_RESIZE_MODE, Boolean.FALSE);
@@ -957,8 +956,6 @@ public class JabRefGuiPreferences extends JabRefCliPreferences implements GuiPre
             NameDisplayPreferences defaults) {
         return new NameDisplayPreferences(getNameDisplayStyle(), getNameAbbreviationStyle());
     }
-
-    // endregion
 
     // region: Main table, main table column, and search dialog column preferences
 
