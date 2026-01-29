@@ -285,8 +285,6 @@ public class JabRefGuiPreferences extends JabRefCliPreferences implements GuiPre
                         "</font>__NEWLINE__");
         // endregion
 
-
-
         // By default disable "Fit table horizontally on the screen"
         defaults.put(AUTO_RESIZE_MODE, Boolean.FALSE);
 
@@ -944,17 +942,31 @@ public class JabRefGuiPreferences extends JabRefCliPreferences implements GuiPre
         return nameDisplayPreferences;
     }
 
-    private NameDisplayPreferences.AbbreviationStyle getNameAbbreviationStyle() {
-        return NameDisplayPreferences.getDefault().getAbbreviationStyle();
+    private NameDisplayPreferences.AbbreviationStyle getNameAbbreviationStyle(NameDisplayPreferences.AbbreviationStyle defaults) {
+        NameDisplayPreferences.AbbreviationStyle abbreviationStyle = defaults; // default
+        if (getBoolean(ABBR_AUTHOR_NAMES)) {
+            abbreviationStyle = NameDisplayPreferences.AbbreviationStyle.FULL;
+        } else if (getBoolean(NAMES_LAST_ONLY)) {
+            abbreviationStyle = NameDisplayPreferences.AbbreviationStyle.LASTNAME_ONLY;
+        }
+        return abbreviationStyle;
     }
 
-    private NameDisplayPreferences.DisplayStyle getNameDisplayStyle() {
-        return NameDisplayPreferences.getDefault().getDisplayStyle();
+    private NameDisplayPreferences.DisplayStyle getNameDisplayStyle(NameDisplayPreferences.DisplayStyle defaults) {
+        NameDisplayPreferences.DisplayStyle displayStyle = defaults; // default
+        if (getBoolean(NAMES_NATBIB)) {
+            displayStyle = NameDisplayPreferences.DisplayStyle.NATBIB;
+        } else if (getBoolean(NAMES_AS_IS)) {
+            displayStyle = NameDisplayPreferences.DisplayStyle.AS_IS;
+        } else if (getBoolean(NAMES_FIRST_LAST)) {
+            displayStyle = NameDisplayPreferences.DisplayStyle.FIRSTNAME_LASTNAME;
+        }
+        return displayStyle;
     }
 
     private NameDisplayPreferences getNameDisplayPreferencesFromBackingStore(
             NameDisplayPreferences defaults) {
-        return new NameDisplayPreferences(getNameDisplayStyle(), getNameAbbreviationStyle());
+        return new NameDisplayPreferences(getNameDisplayStyle(defaults.getDisplayStyle()), getNameAbbreviationStyle(defaults.getAbbreviationStyle()));
     }
 
     // region: Main table, main table column, and search dialog column preferences
